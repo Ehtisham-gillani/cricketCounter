@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp"
+    android:backgroundTint="#D2E3ED">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        >
+
+        <TextView
+            android:id="@+id/tvTeamName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="@string/pakistan"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            android:maxLength="20"
+            android:ellipsize="marquee"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@id/ivEdit"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvMatches"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:text="Matches: 1"
+            android:textColor="#757575"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvTeamName" />
+
+        <TextView
+            android:id="@+id/tvWon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Won: 0"
+            android:textColor="#757575"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/tvMatches"
+            app:layout_constraintTop_toTopOf="@id/tvMatches" />
+
+        <TextView
+            android:id="@+id/tvLost"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Lost: 0"
+            android:textColor="#757575"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@id/tvWon"
+            app:layout_constraintTop_toTopOf="@id/tvMatches" />
+
+        <ImageView
+            android:id="@+id/ivEdit"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="16dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_edit"
+            app:layout_constraintTop_toTopOf="@+id/tvTeamName"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLost"
+            app:layout_constraintEnd_toStartOf="@id/ivDelete" />
+
+        <ImageView
+            android:id="@+id/ivDelete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:padding="2dp"
+            android:src="@drawable/ic_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTeamName"
+            app:layout_constraintBottom_toBottomOf="@+id/tvLost" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

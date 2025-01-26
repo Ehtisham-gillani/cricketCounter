@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">CricketCounter</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="new_match">New Match</string>
+    <string name="resume_match">Resume Match</string>
+    <string name="match_history">Match History</string>
+    <string name="add_teams">Add Teams</string>
+    <string name="no_of_player_in_each_team">NO. of Player in each team</string>
+    <string name="team_1">Team 1</string>
+    <string name="team_2">Team 2</string>
+    <string name="opted_for">Opted for</string>
+    <string name="toss_won_by">Toss won by?</string>
+    <string name="enter_player_between_2_and_99">Enter player between 2 and 99</string>
+    <string name="teams">Teams</string>
+    <string name="crickCounter_new_match">CrickCounter: New Match</string>
+    <string name="ball">Ball</string>
+    <string name="bat">Bat</string>
+    <string name="overs">Overs</string>
+    <string name="enter_over_number">Enter Over number</string>
+    <string name="start_match">START MATCH</string>
+    <string name="striker">Striker</string>
+    <string name="non_striker">Non Striker</string>
+    <string name="bowler">Bowler</string>
+    <string name="submit">SUBMIT</string>
+    <string name="batsman">Batsman</string>
+    <string name="first_inning">First Inning</string>
+    <string name="criccounter">CricCounter</string>
+    <string name="enter_team_name">Enter team name</string>
+    <string name="create_team">Create Team</string>
+    <string name="pakistan">Pakistan</string>
+    <string name="create_player">Create Player</string>
+    <string name="enter_player_name">Enter Player Name</string>
+</resources>
