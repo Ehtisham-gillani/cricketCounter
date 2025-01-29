@@ -9,7 +9,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cricketcounter.R
@@ -18,12 +22,15 @@ import com.example.cricketcounter.databinding.FragmentTeamsBinding
 import com.example.cricketcounter.data.models.Team
 import com.example.cricketcounter.ui.fragments.teamsFragment.adapter.TeamsAdapter
 import com.example.cricketcounter.ui.fragments.teamsFragment.viewModel.TeamsViewModel
+import com.example.cricketcounter.ui.fragments.teamsFragment.viewModel.TeamsViewModelFactory
+import kotlinx.coroutines.launch
 
 class TeamsFragment : Fragment(), TeamsAdapter.TeamClickListener {
     private lateinit var binding: FragmentTeamsBinding
     private lateinit var teamsAdapter: TeamsAdapter
-    private val viewModel: TeamsViewModel by viewModels()
-
+    private val viewModel: TeamsViewModel by viewModels {
+        TeamsViewModelFactory(requireActivity().application)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -61,8 +68,12 @@ class TeamsFragment : Fragment(), TeamsAdapter.TeamClickListener {
     }
 
     private fun observeViewModel() {
-        viewModel.teams.observe(viewLifecycleOwner) { teams ->
-            teamsAdapter.submitList(teams)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.teams.collect { teams ->
+                    teamsAdapter.submitList(teams)
+                }
+            }
         }
     }
 
@@ -139,6 +150,9 @@ class TeamsFragment : Fragment(), TeamsAdapter.TeamClickListener {
     }
 
     override fun onItemClick(team: Team) {
-        findNavController().navigate(R.id.action_teamsFragment_to_playersFragment)
+        findNavController().navigate(
+            R.id.action_teamsFragment_to_playersFragment,
+            bundleOf("teamId" to team.id)
+        )
     }
 }

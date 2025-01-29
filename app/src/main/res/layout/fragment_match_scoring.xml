@@ -1,189 +1,506 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F5F5F5"
     tools:context=".ui.fragments.matchScoringFragment.MatchScoringFragment">
 
-        <!-- Team Score Header -->
-        <TextView
-            android:id="@+id/teamName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#FFFFFF"
-            android:padding="8dp"
-            android:text="Pakistan, Inning1, (1 overs)"
-            android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent" />
+    <!-- Team Score Header -->
+    <TextView
+        android:id="@+id/teamName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="8dp"
+        android:text="Pakistan, Inning1, (1 overs)"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Score Display -->
+    <!-- Score Display -->
+    <TextView
+        android:id="@+id/score"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_margin="8dp"
+        android:text="0/0          (0.0)"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/teamName" />
+
+    <!-- Run Rate Info -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rateInfo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/score"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <TextView
-            android:id="@+id/score"
-            android:layout_width="wrap_content"
+            android:id="@+id/crrText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:text="0/0          (0.0)"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:text="CRR:0.00"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/teamName" />
+            app:layout_constraintEnd_toStartOf="@id/rrrText"
+            app:layout_constraintHorizontal_weight="1" />
 
-        <!-- Run Rate Info -->
-        <LinearLayout
-            android:id="@+id/rateInfo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/score">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="CRR:0.00" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="RRR:NA" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Target:NA" />
-        </LinearLayout>
-
-        <!-- Batsman Stats -->
-        <TableLayout
-            android:id="@+id/batsmanTable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:stretchColumns="*"
-            app:layout_constraintTop_toBottomOf="@id/rateInfo">
-
-            <TableRow android:background="#E8E8E8">
-                <TextView android:text="Batsman" android:layout_weight="2.5" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="R" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="B" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="4s" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="6s" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="SR" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-                <TextView android:text="Abbas*" android:layout_weight="2.5" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0.00" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-            </TableRow>
-
-            <TableRow>
-                <TextView android:text="Ehtisham" android:layout_weight="2.5" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0.00" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-            </TableRow>
-        </TableLayout>
-
-        <!-- Bowler Stats -->
-        <TableLayout
-            android:id="@+id/bowlerTable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:stretchColumns="*"
-            app:layout_constraintTop_toBottomOf="@id/batsmanTable">
-
-            <TableRow android:background="#E8E8E8">
-                <TextView android:text="Bowler" android:layout_weight="2.5" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="O" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="M" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="R" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="W" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-                <TextView android:text="ER" android:gravity="center" android:layout_weight="1" android:padding="4dp" android:textStyle="bold" />
-            </TableRow>
-
-            <TableRow>
-                <TextView android:text="Jayesh" android:layout_weight="2.5" android:padding="4dp" />
-                <TextView android:text="0.0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-                <TextView android:text="0.00" android:gravity="center" android:layout_weight="1" android:padding="4dp" />
-            </TableRow>
-        </TableLayout>
-
-        <!-- This Over Label -->
         <TextView
-            android:id="@+id/thisOverLabel"
+            android:id="@+id/rrrText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="RRR:NA"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/crrText"
+            app:layout_constraintEnd_toStartOf="@id/targetText"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <TextView
+            android:id="@+id/targetText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Target:NA"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/rrrText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Batsman Stats -->
+    <TableLayout
+        android:id="@+id/batsmanTable"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:stretchColumns="*"
+        app:layout_constraintTop_toBottomOf="@id/rateInfo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TableRow android:background="#E8E8E8">
+
+            <TextView
+                android:layout_weight="2.5"
+                android:padding="4dp"
+                android:text="Batsman"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="R"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="B"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="4s"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="6s"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="SR"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_weight="2.5"
+                android:padding="4dp"
+                android:text="Abbas*" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0.00" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_weight="2.5"
+                android:padding="4dp"
+                android:text="Ehtisham" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0.00" />
+        </TableRow>
+
+    </TableLayout>
+
+    <!-- Bowler Stats -->
+    <TableLayout
+        android:id="@+id/bowlerTable"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:stretchColumns="*"
+        app:layout_constraintTop_toBottomOf="@id/batsmanTable"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TableRow android:background="#E8E8E8">
+
+            <TextView
+                android:layout_weight="2.5"
+                android:padding="4dp"
+                android:text="Bowler"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="O"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="M"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="R"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="W"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="ER"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_weight="2.5"
+                android:padding="4dp"
+                android:text="Jayesh" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0.0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0" />
+
+            <TextView
+                android:layout_weight="1"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="0.00" />
+        </TableRow>
+
+    </TableLayout>
+
+    <!-- This Over Label -->
+    <TextView
+        android:id="@+id/thisOverLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="This over:"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bowlerTable" />
+
+    <!-- Delivery Options -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/deliveryOptions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        app:layout_constraintTop_toBottomOf="@id/thisOverLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <CheckBox
+            android:id="@+id/wicketCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This over:"
-            android:textSize="14sp"
-            android:layout_margin="8dp"
-            app:layout_constraintTop_toBottomOf="@id/bowlerTable"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:text="Wicket"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/wideCheckbox" />
 
-        <!-- Delivery Options -->
-        <LinearLayout
-            android:id="@+id/deliveryOptions"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/wideCheckbox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:padding="4dp"
-            app:layout_constraintTop_toBottomOf="@id/thisOverLabel">
+            android:text="Wide"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/wicketCheckbox"
+            app:layout_constraintEnd_toStartOf="@id/nbCheckbox" />
 
-            <CheckBox android:id="@+id/wicketCheckbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Wicket" android:textSize="12sp" />
-            <CheckBox android:id="@+id/wideCheckbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Wide" android:textSize="12sp" />
-            <CheckBox android:id="@+id/nbCheckbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NB" android:textSize="12sp" />
-            <CheckBox android:id="@+id/byesCheckbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Byes" android:textSize="12sp" />
-            <CheckBox android:id="@+id/legByCheckbox" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="LegBy" android:textSize="12sp" />
-        </LinearLayout>
-
-        <!-- Run Buttons -->
-        <GridLayout
-            android:id="@+id/runButtonsGrid"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/nbCheckbox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:columnCount="4"
-            android:rowCount="2"
-            android:padding="4dp"
-            app:layout_constraintBottom_toTopOf="@id/bottomButtons">
+            android:text="NB"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/wideCheckbox"
+            app:layout_constraintEnd_toStartOf="@id/byesCheckbox" />
 
-            <Button android:text="0" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="1" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="2" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="SWAP" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="3" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="4" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="6" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="UNDO" android:layout_columnWeight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-        </GridLayout>
-
-        <!-- Bottom Action Buttons -->
-        <LinearLayout
-            android:id="@+id/bottomButtons"
-            android:layout_width="match_parent"
+        <CheckBox
+            android:id="@+id/byesCheckbox"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="4dp"
-            app:layout_constraintBottom_toBottomOf="parent">
+            android:text="Byes"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/nbCheckbox"
+            app:layout_constraintEnd_toStartOf="@id/legByCheckbox" />
 
-            <Button android:text="OVERS" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="BATSMAN" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="BOWLER" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="2dp" android:backgroundTint="#00C853" />
-            <Button android:text="RETIRE" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_margin="2dp" android:backgroundTint="#B71C1C" />
-        </LinearLayout>
+        <CheckBox
+            android:id="@+id/legByCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LegBy"
+            android:textSize="12sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/byesCheckbox"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Run Buttons -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/runButtonsGrid"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="2dp"
+        app:layout_constraintTop_toBottomOf="@id/deliveryOptions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+
+            <!-- First Row -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="0"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_1"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="1"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toEndOf="@id/btn_0"
+                app:layout_constraintEnd_toStartOf="@id/btn_2"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginHorizontal="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="2"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toEndOf="@id/btn_1"
+                app:layout_constraintEnd_toStartOf="@id/btn_swap"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_swap"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="SWAP"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toEndOf="@id/btn_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="4dp"/>
+
+            <!-- Second Row -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="3"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_4"
+                app:layout_constraintTop_toBottomOf="@id/btn_0"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="4"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toEndOf="@id/btn_3"
+                app:layout_constraintEnd_toStartOf="@id/btn_6"
+                app:layout_constraintTop_toBottomOf="@id/btn_1"
+                android:layout_marginTop="8dp"
+                android:layout_marginHorizontal="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_6"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="6"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toEndOf="@id/btn_4"
+                app:layout_constraintEnd_toStartOf="@id/btn_undo"
+                app:layout_constraintTop_toBottomOf="@id/btn_2"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_undo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="UNDO"
+                style="@style/RunButton"
+                android:textSize="18sp"
+                android:backgroundTint="#4CAF50"
+                app:layout_constraintStart_toEndOf="@id/btn_6"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btn_swap"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="4dp"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

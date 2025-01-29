@@ -4,22 +4,31 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.view.WindowManager
-import android.widget.ScrollView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.cricketcounter.R
 import com.example.cricketcounter.databinding.FirstIningsLayoutBinding
 import com.example.cricketcounter.databinding.FragmentNewMatchBinding
+import com.example.cricketcounter.ui.fragments.newMatchFragment.viewModel.NewMatchViewModel
+import com.example.cricketcounter.ui.fragments.newMatchFragment.viewModel.NewMatchViewModelFactory
+import kotlinx.coroutines.launch
 
 class NewMatchFragment : Fragment() {
     private lateinit var binding: FragmentNewMatchBinding
+    private var matchSetup: NewMatchViewModel.MatchSetup? = null
+    private val viewModel: NewMatchViewModel by viewModels {
+        NewMatchViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,54 +40,103 @@ class NewMatchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.window?.statusBarColor = ContextCompat.getColor(requireContext(), R.color.statusBarColor)
+        activity?.window?.statusBarColor =
+            ContextCompat.getColor(requireContext(), R.color.statusBarColor)
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
         binding.apply {
-            editPlayerCount.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    scrollToView(editPlayerCount)
-                }
-            }
-            editTeam1.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    scrollToView(editTeam1)
-                }
-            }
-            editTeam2.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    scrollToView(editTeam2)
-                }
-            }
-            editOvers.setOnFocusChangeListener { _, hasFocus ->
-                if (hasFocus) {
-                    scrollToView(editOvers)
-                }
-            }
             buttonStartMatch.setOnClickListener {
-                showStartMatchDialog()
+                if (validateInputs()) {
+                    saveTeamsAndShowDialog()
+                }
             }
         }
     }
 
-    private fun scrollToView(view: View) {
-        view.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                view.viewTreeObserver.removeOnGlobalLayoutListener(this)
+    private fun validateInputs(): Boolean {
+        binding.apply {
+            var isValid = true
 
-                val scrollView = binding.root
-                val offset = resources.displayMetrics.heightPixels / 3
+            val playerCount = editPlayerCount.text?.toString()?.trim()
+            when {
+                playerCount.isNullOrBlank() -> {
+                    editPlayerCount.error = "Please enter number of players"
+                    isValid = false
+                }
 
-                val coordinates = IntArray(2)
-                view.getLocationInWindow(coordinates)
-
-                scrollView.smoothScrollTo(0, coordinates[1] - offset)
+                playerCount.toIntOrNull() !in 2..99 -> {
+                    editPlayerCount.error = "Players must be between 2 and 99"
+                    isValid = false
+                }
             }
-        })
+
+            val team1Name = editTeam1.text?.toString()?.trim()
+            val team2Name = editTeam2.text?.toString()?.trim()
+
+            when {
+                team1Name.isNullOrBlank() -> {
+                    editTeam1.error = "Please enter team 1 name"
+                    isValid = false
+                }
+
+                team2Name.isNullOrBlank() -> {
+                    editTeam2.error = "Please enter team 2 name"
+                    isValid = false
+                }
+
+                team1Name == team2Name -> {
+                    editTeam1.error = "Team names cannot be same"
+                    editTeam2.error = "Team names cannot be same"
+                    isValid = false
+                }
+            }
+
+            val overs = editOvers.text?.toString()?.trim()
+            when {
+                overs.isNullOrBlank() -> {
+                    editOvers.error = "Please enter number of overs"
+                    isValid = false
+                }
+
+                overs.toIntOrNull() !in 1..99 -> {
+                    editOvers.error = "Overs must be between 1 and 99"
+                    isValid = false
+                }
+            }
+
+            return isValid
+        }
+    }
+
+    private fun saveTeamsAndShowDialog() {
+        val team1Name = binding.editTeam1.text?.toString()?.trim() ?: ""
+        val team2Name = binding.editTeam2.text?.toString()?.trim() ?: ""
+        val tossWonByTeam1 = binding.radioTeam1.isChecked
+        val choseToBat = binding.radioBat.isChecked
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val overs = binding.editOvers.text.toString().toInt()
+                val teamIds = viewModel.addTeamsForMatch(team1Name, team2Name, overs)
+                matchSetup = NewMatchViewModel.MatchSetup(
+                    team1Id = teamIds.first,
+                    team2Id = teamIds.second,
+                    team1Name = team1Name,
+                    team2Name = team2Name,
+                    tossWonByTeam1 = tossWonByTeam1,
+                    choseToBat = choseToBat,
+                    overs = overs
+                )
+                showStartMatchDialog()
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Error saving teams: ${e.message}", Toast.LENGTH_SHORT).show()
+                Log.d("NewMatchFragment", "Error saving teams: ${e.message}")
+            }
+        }
     }
 
     private fun showStartMatchDialog() {
         val dialog = Dialog(requireContext(), android.R.style.Theme_Material_Light_Dialog)
-
         val dialogBinding = FirstIningsLayoutBinding.inflate(layoutInflater)
         dialog.setContentView(dialogBinding.root)
 
@@ -86,8 +144,6 @@ class NewMatchFragment : Fragment() {
             val width = (resources.displayMetrics.widthPixels * 0.9).toInt()
             setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
             setGravity(Gravity.CENTER)
-
-            // Enable standard dialog features
             addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
             setDimAmount(0.5f)
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -108,8 +164,26 @@ class NewMatchFragment : Fragment() {
                         editStriker.error = "Striker and non-striker cannot be same"
                     }
                     else -> {
-                        startMatch()
-                        dialog.dismiss()
+                        matchSetup?.let { setup ->
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                try {
+                                    viewModel.addOrUpdatePlayers(
+                                        striker = striker,
+                                        nonStriker = nonStriker,
+                                        bowler = bowler,
+                                        matchSetup = setup
+                                    )
+                                    startMatch()
+                                    dialog.dismiss()
+                                } catch (e: Exception) {
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "Error saving players: ${e.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -119,7 +193,18 @@ class NewMatchFragment : Fragment() {
     }
 
     private fun startMatch() {
-        findNavController().navigate(R.id.action_newMatchFragment_to_matchScoringFragment)
+        viewModel.matchDetails?.let { details ->
+            val directions = NewMatchFragmentDirections.actionNewMatchFragmentToMatchScoringFragment(
+                matchId = details.matchId,
+                battingTeam = details.battingTeam,
+                bowlingTeam = details.bowlingTeam,
+                striker = details.striker,
+                nonStriker = details.nonStriker,
+                bowler = details.bowler,
+                overs = details.overs
+            )
+            findNavController().navigate(directions)
+        }
     }
 
     override fun onResume() {
@@ -134,5 +219,4 @@ class NewMatchFragment : Fragment() {
         super.onPause()
         activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
     }
-
 }

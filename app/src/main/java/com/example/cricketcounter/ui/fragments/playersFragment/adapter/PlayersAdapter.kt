@@ -1,4 +1,4 @@
-package com.example.cricketcounter.ui.fragments.playersFragment.viewModel
+package com.example.cricketcounter.ui.fragments.playersFragment.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,6 +12,7 @@ class PlayersAdapter(private val listener: PlayerClickListener) :
     ListAdapter<Player, PlayersAdapter.PlayerViewHolder>(PlayerDiffCallback()) {
 
     interface PlayerClickListener {
+        fun onPlayerClick(player: Player)
         fun onEditClick(player: Player)
         fun onDeleteClick(player: Player)
     }
@@ -37,6 +38,9 @@ class PlayersAdapter(private val listener: PlayerClickListener) :
 
     override fun onBindViewHolder(holder: PlayerViewHolder, position: Int) {
         holder.bind(getItem(position))
+        holder.itemView.setOnClickListener {
+            listener.onPlayerClick(getItem(position))
+        }
     }
 
     inner class PlayerViewHolder(private val binding: ItemPlayersBinding) :

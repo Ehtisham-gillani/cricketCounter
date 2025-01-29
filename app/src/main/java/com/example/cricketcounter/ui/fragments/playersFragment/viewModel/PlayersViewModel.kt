@@ -1,40 +1,41 @@
 package com.example.cricketcounter.ui.fragments.playersFragment.viewModel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.cricketcounter.data.models.Player
+import com.example.cricketcounter.data.room.database.CricketDatabase
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.launch
 
-class PlayersViewModel : ViewModel() {
-    private val _players = MutableLiveData<List<Player>>()
-    val players: LiveData<List<Player>> = _players
+class PlayersViewModel(application: Application) : AndroidViewModel(application) {
+    private val database = CricketDatabase.getDatabase(application)
+    private val playerDao = database.playerDao()
 
-    private val playersList = mutableListOf<Player>()
+    private val _currentTeamId = MutableStateFlow<Int?>(null)
 
-    fun addPlayer(playerName: String, teamId: Int) {
-        val newPlayer = Player(
-            id = playersList.size + 1,
-            name = playerName,
-            teamId = teamId
-        )
-        playersList.add(newPlayer)
-        _players.value = playersList.toList()
+    val players = _currentTeamId.flatMapLatest { teamId ->
+        teamId?.let { playerDao.getPlayersForTeam(it) } ?: flowOf(emptyList())
+    }.asLiveData()
+
+    fun setTeamId(teamId: Int) {
+        _currentTeamId.value = teamId
     }
 
-    fun updatePlayer(player: Player, newName: String) {
-        val index = playersList.indexOfFirst { it.id == player.id }
-        if (index != -1) {
-            playersList[index] = player.copy(name = newName)
-            _players.value = playersList.toList()
-        }
+    fun addPlayer(playerName: String, teamId: Int) = viewModelScope.launch {
+        val player = Player(name = playerName, teamId = teamId)
+        playerDao.insertPlayer(player)
     }
 
-    fun deletePlayer(player: Player) {
-        playersList.remove(player)
-        _players.value = playersList.toList()
+    fun updatePlayer(player: Player, newName: String) = viewModelScope.launch {
+        playerDao.updatePlayer(player.copy(name = newName))
     }
 
-    fun getPlayersForTeam(teamId: Int) {
-        _players.value = playersList.filter { it.teamId == teamId }
+    fun deletePlayer(player: Player) = viewModelScope.launch {
+        playerDao.deletePlayer(player)
     }
 }

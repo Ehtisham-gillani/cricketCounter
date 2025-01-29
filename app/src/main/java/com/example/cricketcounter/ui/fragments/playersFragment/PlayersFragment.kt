@@ -9,19 +9,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cricketcounter.R
 import com.example.cricketcounter.data.models.Player
 import com.example.cricketcounter.databinding.AddPlayerDialogBinding
 import com.example.cricketcounter.databinding.FragmentPlayersBinding
-import com.example.cricketcounter.databinding.FragmentTeamsBinding
-import com.example.cricketcounter.ui.fragments.playersFragment.viewModel.PlayersAdapter
+import com.example.cricketcounter.ui.fragments.playersFragment.adapter.PlayersAdapter
 import com.example.cricketcounter.ui.fragments.playersFragment.viewModel.PlayersViewModel
+import com.example.cricketcounter.ui.fragments.playersFragment.viewModel.PlayersViewModelFactory
 
 class PlayersFragment : Fragment(), PlayersAdapter.PlayerClickListener {
     private lateinit var binding: FragmentPlayersBinding
     private lateinit var playersAdapter: PlayersAdapter
-    private val viewModel: PlayersViewModel by viewModels()
+    private var currentTeamId: Int? = null
+    private val viewModel: PlayersViewModel by viewModels {
+        PlayersViewModelFactory(requireActivity().application)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +40,10 @@ class PlayersFragment : Fragment(), PlayersAdapter.PlayerClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        currentTeamId = arguments?.getInt("teamId")
+        currentTeamId?.let { teamId ->
+            viewModel.setTeamId(teamId)
+        }
         setupRecyclerView()
         setupClickListeners()
         observeViewModel()
@@ -81,7 +91,9 @@ class PlayersFragment : Fragment(), PlayersAdapter.PlayerClickListener {
                     return@setOnClickListener
                 }
 
-                viewModel.addPlayer(playerName, 1)
+                currentTeamId?.let { teamId ->
+                    viewModel.addPlayer(playerName, teamId)
+                }
                 dialog.dismiss()
             }
         }
@@ -121,6 +133,13 @@ class PlayersFragment : Fragment(), PlayersAdapter.PlayerClickListener {
         }
 
         dialog.show()
+    }
+
+    override fun onPlayerClick(player: Player) {
+        findNavController().navigate(
+            R.id.action_playersFragment_to_playerProfileFragment,
+            bundleOf("playerId" to player.id)
+        )
     }
 
     override fun onEditClick(player: Player) {

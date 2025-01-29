@@ -30,19 +30,56 @@
         android:id="@+id/matchScoringFragment"
         android:name="com.example.cricketcounter.ui.fragments.matchScoringFragment.MatchScoringFragment"
         android:label="fragment_match_scoring"
-        tools:layout="@layout/fragment_match_scoring" />
+        tools:layout="@layout/fragment_match_scoring" >
+        <argument
+            android:name="matchId"
+            app:argType="integer" />
+        <argument
+            android:name="battingTeam"
+            app:argType="string" />
+        <argument
+            android:name="bowlingTeam"
+            app:argType="string" />
+        <argument
+            android:name="striker"
+            app:argType="string" />
+        <argument
+            android:name="nonStriker"
+            app:argType="string" />
+        <argument
+            android:name="bowler"
+            app:argType="string" />
+        <argument
+            android:name="overs"
+            app:argType="integer" />
+    </fragment>
     <fragment
         android:id="@+id/teamsFragment"
-        android:name="com.example.cricketcounter.ui.fragments.teamsFragment.TeamsFragment"
-        android:label="fragment_add_teams"
-        tools:layout="@layout/fragment_teams" >
+        android:name="com.example.cricketcounter.ui.fragments.teamsFragment.TeamsFragment">
         <action
             android:id="@+id/action_teamsFragment_to_playersFragment"
-            app:destination="@id/playersFragment" />
+            app:destination="@id/playersFragment">
+            <argument
+                android:name="teamId"
+                app:argType="integer" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/playersFragment"
         android:name="com.example.cricketcounter.ui.fragments.playersFragment.PlayersFragment"
         android:label="fragment_players"
-        tools:layout="@layout/fragment_players" />
+        tools:layout="@layout/fragment_players" >
+        <action
+            android:id="@+id/action_playersFragment_to_playerProfileFragment"
+            app:destination="@id/playerProfileFragment" >
+            <argument
+                android:name="playerId"
+                app:argType="integer" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/playerProfileFragment"
+        android:name="com.example.cricketcounter.ui.fragments.playersProfileFragment.PlayerProfileFragment"
+        android:label="fragment_player_profile"
+        tools:layout="@layout/fragment_player_profile" />
 </navigation>

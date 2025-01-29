@@ -1,286 +1,276 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:fillViewport="true"
     tools:context=".ui.fragments.newMatchFragment.NewMatchFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/headerTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:background="#2196F3"
+        android:padding="8dp"
+        android:text="@string/crickCounter_new_match"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Header -->
-        <TextView
-            android:id="@+id/headerTitle"
+    <TextView
+        android:id="@+id/labelTeams"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/teams"
+        android:textColor="#2196F3"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/headerTitle" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardTeams"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/labelTeams">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#2196F3"
-            android:padding="16dp"
-            android:text="@string/crickCounter_new_match"
-            android:textColor="@color/white"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="vertical"
+            android:background="#E3E7EA"
+            android:padding="8dp">
 
-        <!-- Teams Section -->
-        <TextView
-            android:id="@+id/labelTeams"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:text="@string/teams"
-            android:textColor="#2196F3"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerTitle" />
-
-        <!-- Teams Card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardTeams"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            app:layout_constraintTop_toBottomOf="@id/labelTeams">
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#E3E7EA"
-                android:padding="16dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/no_of_player_in_each_team"
-                    android:textColor="#2196F3"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="8dp"
-                    app:boxStrokeColor="#2196F3"
-                    app:cursorColor="#2196F3"
-                    app:hintTextColor="#2196F3"
-                    android:hint="@string/enter_player_between_2_and_99"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editPlayerCount"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLength="2"
-                        android:textColor="@color/black"
-                        android:inputType="number" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="8dp"
-                    app:boxStrokeColor="#2196F3"
-                    app:cursorColor="#2196F3"
-                    app:hintTextColor="#2196F3"
-                    android:hint="@string/team_1"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTeam1"
-                        android:maxLength="20"
-                        android:textColor="@color/black"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="8dp"
-                    android:hint="@string/team_2"
-                    app:boxStrokeColor="#2196F3"
-                    app:cursorColor="#2196F3"
-                    app:hintTextColor="#2196F3"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editTeam2"
-                        android:layout_width="match_parent"
-                        android:maxLength="20"
-                        android:textColor="@color/black"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Toss Section -->
-        <TextView
-            android:id="@+id/labelToss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/toss_won_by"
-            android:textColor="#2196F3"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardTeams" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardToss"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            android:backgroundTint="#E3E7EA"
-            app:cardElevation="4dp"
-            app:layout_constraintTop_toBottomOf="@id/labelToss">
-
-            <RadioGroup
-                android:id="@+id/radioGroupToss"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/radioTeam1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/team_1"
-                    app:buttonTint="#2196F3"
-                    android:checked="true" />
-
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/radioTeam2"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/team_2"
-                    app:buttonTint="#2196F3"
-                    />
-            </RadioGroup>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Opted For Section -->
-        <TextView
-            android:id="@+id/labelOpted"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/opted_for"
-            android:textColor="#2196F3"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardToss" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardOpted"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="#E3E7EA"
-            app:layout_constraintTop_toBottomOf="@id/labelOpted">
-
-            <RadioGroup
-                android:id="@+id/radioGroupOpted"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/radioBall"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/ball"
-                    app:buttonTint="#2196F3"
-                    android:checked="true" />
-
-                <com.google.android.material.radiobutton.MaterialRadioButton
-                    android:id="@+id/radioBat"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    app:buttonTint="#2196F3"
-                    android:text="@string/bat" />
-            </RadioGroup>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Overs Section -->
-        <TextView
-            android:id="@+id/labelOvers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/overs"
-            android:textColor="#2196F3"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardOpted" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cardOvers"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:backgroundTint="#E3E7EA"
-            app:layout_constraintTop_toBottomOf="@id/labelOvers">
+                android:text="@string/no_of_player_in_each_team"
+                android:textColor="#2196F3"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="4dp"
                 app:boxStrokeColor="#2196F3"
                 app:cursorColor="#2196F3"
                 app:hintTextColor="#2196F3"
-                android:hint="@string/enter_over_number"
+                android:hint="@string/enter_player_between_2_and_99"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editOvers"
+                    android:id="@+id/editPlayerCount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="2"
                     android:textColor="@color/black"
+                    android:padding="12dp"
+                    android:textSize="16sp"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
-        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Start Match Button -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buttonStartMatch"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="24dp"
-            android:backgroundTint="#2196F3"
-            android:paddingStart="32dp"
-            android:paddingEnd="32dp"
-            android:text="@string/start_match"
-            android:textColor="#FFFFFF"
-            app:cornerRadius="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cardOvers"
-            app:layout_constraintVertical_bias="0" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:boxStrokeColor="#2196F3"
+                app:cursorColor="#2196F3"
+                app:hintTextColor="#2196F3"
+                android:hint="@string/team_1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTeam1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:textColor="@color/black"
+                    android:padding="12dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-</ScrollView>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                app:boxStrokeColor="#2196F3"
+                app:cursorColor="#2196F3"
+                app:hintTextColor="#2196F3"
+                android:hint="@string/team_2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTeam2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="20"
+                    android:textColor="@color/black"
+                    android:padding="12dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/labelToss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/toss_won_by"
+        android:textColor="#2196F3"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardTeams" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardToss"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+        android:backgroundTint="#E3E7EA"
+        app:cardElevation="2dp"
+        app:layout_constraintTop_toBottomOf="@id/labelToss">
+
+        <RadioGroup
+            android:id="@+id/radioGroupToss"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioTeam1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/team_1"
+                app:buttonTint="#2196F3"
+                android:checked="true" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioTeam2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/team_2"
+                app:buttonTint="#2196F3" />
+        </RadioGroup>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/labelOpted"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/opted_for"
+        android:textColor="#2196F3"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardToss" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardOpted"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        android:backgroundTint="#E3E7EA"
+        app:layout_constraintTop_toBottomOf="@id/labelOpted">
+
+        <RadioGroup
+            android:id="@+id/radioGroupOpted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioBall"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ball"
+                app:buttonTint="#2196F3"
+                android:checked="true" />
+
+            <com.google.android.material.radiobutton.MaterialRadioButton
+                android:id="@+id/radioBat"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:buttonTint="#2196F3"
+                android:text="@string/bat" />
+        </RadioGroup>
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/labelOvers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/overs"
+        android:textColor="#2196F3"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardOpted" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardOvers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        android:backgroundTint="#E3E7EA"
+        app:layout_constraintTop_toBottomOf="@id/labelOvers">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:boxStrokeColor="#2196F3"
+            app:cursorColor="#2196F3"
+            app:hintTextColor="#2196F3"
+            android:hint="@string/enter_over_number"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editOvers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="2"
+                android:textColor="@color/black"
+                android:padding="12dp"
+                android:textSize="16sp"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonStartMatch"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#2196F3"
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:text="@string/start_match"
+        android:textColor="#FFFFFF"
+        app:cornerRadius="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardOvers" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
