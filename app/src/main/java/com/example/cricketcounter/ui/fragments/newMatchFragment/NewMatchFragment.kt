@@ -1,6 +1,7 @@
 package com.example.cricketcounter.ui.fragments.newMatchFragment
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,6 +15,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.cricketcounter.R
@@ -135,50 +137,54 @@ class NewMatchFragment : Fragment() {
         }
     }
 
-    private fun showStartMatchDialog() {
-        val dialog = Dialog(requireContext(), android.R.style.Theme_Material_Light_Dialog)
-        val dialogBinding = FirstIningsLayoutBinding.inflate(layoutInflater)
-        dialog.setContentView(dialogBinding.root)
+    companion object {
+        fun showStartMatchDialog(
+            context: Context,
+            lifecycleScope: LifecycleCoroutineScope,
+            viewModel: NewMatchViewModel,
+            matchId: Int,
+            isSecondInnings: Boolean = false,
+            onSubmit: (striker: String, nonStriker: String, bowler: String) -> Unit
+        ) {
+            val dialog = Dialog(context, android.R.style.Theme_Material_Light_Dialog)
+            val dialogBinding = FirstIningsLayoutBinding.inflate(LayoutInflater.from(context))
+            dialog.setContentView(dialogBinding.root)
 
-        dialog.window?.apply {
-            val width = (resources.displayMetrics.widthPixels * 0.9).toInt()
-            setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
-            setGravity(Gravity.CENTER)
-            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-            setDimAmount(0.5f)
-            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
+            dialog.window?.apply {
+                val width = (context.resources.displayMetrics.widthPixels * 0.9).toInt()
+                setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+                setGravity(Gravity.CENTER)
+                addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+                setDimAmount(0.5f)
+                setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            }
 
-        dialogBinding.apply {
-            buttonSubmit.setOnClickListener {
-                val striker = editStriker.text?.toString()?.trim()
-                val nonStriker = editNonStriker.text?.toString()?.trim()
-                val bowler = editBowler.text?.toString()?.trim()
+            dialogBinding.apply {
+                // Change title based on innings
+                dialogTitle.text = if (isSecondInnings) "Second Innings" else "First Innings"
 
-                when {
-                    striker.isNullOrBlank() -> editStriker.error = "Please enter striker name"
-                    nonStriker.isNullOrBlank() -> editNonStriker.error = "Please enter non-striker name"
-                    bowler.isNullOrBlank() -> editBowler.error = "Please enter bowler name"
-                    striker == nonStriker -> {
-                        editNonStriker.error = "Striker and non-striker cannot be same"
-                        editStriker.error = "Striker and non-striker cannot be same"
-                    }
-                    else -> {
-                        matchSetup?.let { setup ->
-                            viewLifecycleOwner.lifecycleScope.launch {
+                buttonSubmit.setOnClickListener {
+                    val striker = editStriker.text?.toString()?.trim()
+                    val nonStriker = editNonStriker.text?.toString()?.trim()
+                    val bowler = editBowler.text?.toString()?.trim()
+
+                    when {
+                        striker.isNullOrBlank() -> editStriker.error = "Please enter striker name"
+                        nonStriker.isNullOrBlank() -> editNonStriker.error = "Please enter non-striker name"
+                        bowler.isNullOrBlank() -> editBowler.error = "Please enter bowler name"
+                        striker == nonStriker -> {
+                            editNonStriker.error = "Striker and non-striker cannot be same"
+                            editStriker.error = "Striker and non-striker cannot be same"
+                        }
+                        else -> {
+                            lifecycleScope.launch {
                                 try {
-                                    viewModel.addOrUpdatePlayers(
-                                        striker = striker,
-                                        nonStriker = nonStriker,
-                                        bowler = bowler,
-                                        matchSetup = setup
-                                    )
-                                    startMatch()
+                                    onSubmit(striker, nonStriker, bowler)
                                     dialog.dismiss()
                                 } catch (e: Exception) {
                                     Toast.makeText(
-                                        requireContext(),
-                                        "Error saving players: ${e.message}",
+                                        context,
+                                        "Error: ${e.message}",
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
@@ -187,9 +193,25 @@ class NewMatchFragment : Fragment() {
                     }
                 }
             }
-        }
 
-        dialog.show()
+            dialog.show()
+        }
+    }
+
+    private fun showStartMatchDialog() {
+        val matchSetup = matchSetup ?: return
+        showStartMatchDialog(
+            context = requireContext(),
+            lifecycleScope = viewLifecycleOwner.lifecycleScope,
+            viewModel = viewModel,
+            matchId = -1, // Not needed for first innings here
+            isSecondInnings = false
+        ) { striker, nonStriker, bowler ->
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.addOrUpdatePlayers(striker, nonStriker, bowler, matchSetup)
+                startMatch()
+            }
+        }
     }
 
     private fun startMatch() {

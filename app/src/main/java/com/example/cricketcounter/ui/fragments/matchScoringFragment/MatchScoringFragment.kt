@@ -1,11 +1,16 @@
 package com.example.cricketcounter.ui.fragments.matchScoringFragment
 
 import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.TableRow
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -16,9 +21,12 @@ import com.example.cricketcounter.R
 import com.example.cricketcounter.data.extensions.ExtraType
 import com.example.cricketcounter.data.extensions.WicketType
 import com.example.cricketcounter.data.models.Match
+import com.example.cricketcounter.databinding.FirstIningsLayoutBinding
 import com.example.cricketcounter.databinding.FragmentMatchScoringBinding
 import com.example.cricketcounter.ui.fragments.matchScoringFragment.viewModel.MatchScoringViewModel
 import com.example.cricketcounter.ui.fragments.matchScoringFragment.viewModel.MatchScoringViewModelFactory
+import com.example.cricketcounter.ui.fragments.newMatchFragment.viewModel.NewMatchViewModel
+import com.example.cricketcounter.ui.fragments.newMatchFragment.viewModel.NewMatchViewModelFactory
 import kotlinx.coroutines.launch
 
 class MatchScoringFragment : Fragment() {
@@ -27,6 +35,9 @@ class MatchScoringFragment : Fragment() {
     private val args: MatchScoringFragmentArgs by navArgs()
     private val viewModel: MatchScoringViewModel by viewModels {
         MatchScoringViewModelFactory(requireActivity().application, args.matchId)
+    }
+    private val newMatchViewModel: NewMatchViewModel by viewModels {
+        NewMatchViewModelFactory(requireActivity().application)
     }
 
     override fun onCreateView(
@@ -42,8 +53,15 @@ class MatchScoringFragment : Fragment() {
         activity?.window?.statusBarColor =
             ContextCompat.getColor(requireContext(), R.color.statusBarColor)
 
-        val args = MatchScoringFragmentArgs.fromBundle(requireArguments())
-        setupMatchDetails(args)
+        // Fetch initial Match data from ViewModel
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.currentMatch.collect { match ->
+                match?.let {
+                    setupMatchDetails(it) // Use Match instead of args
+                }
+            }
+        }
+
         setupClickListeners()
         observeMatchData()
         observeInningsTransition()
@@ -66,7 +84,7 @@ class MatchScoringFragment : Fragment() {
                 .setMessage("First innings score: ${match.totalScore}/${match.wickets}\n" +
                         "Target: ${match.totalScore + 1} runs")
                 .setPositiveButton("Start Next Innings") { _, _ ->
-                    viewModel.startNextInnings()
+                    showSecondInningsDialog()
                 }
                 .setCancelable(false)
                 .create()
@@ -74,22 +92,66 @@ class MatchScoringFragment : Fragment() {
         }
     }
 
-    private fun setupMatchDetails(args: MatchScoringFragmentArgs) {
+    private fun showSecondInningsDialog() {
+        val dialog = Dialog(requireContext(), android.R.style.Theme_Material_Light_Dialog)
+        val dialogBinding = FirstIningsLayoutBinding.inflate(layoutInflater) // Reuse the same layout
+        dialog.setContentView(dialogBinding.root)
+
+        dialog.window?.apply {
+            val width = (resources.displayMetrics.widthPixels * 0.9).toInt()
+            setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
+            setGravity(Gravity.CENTER)
+            addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+            setDimAmount(0.5f)
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+
+        dialogBinding.apply {
+            dialogTitle.text = "Second Innings"
+
+            buttonSubmit.setOnClickListener {
+                val striker = editStriker.text?.toString()?.trim()
+                val nonStriker = editNonStriker.text?.toString()?.trim()
+                val bowler = editBowler.text?.toString()?.trim()
+
+                when {
+                    striker.isNullOrBlank() -> editStriker.error = "Please enter striker name"
+                    nonStriker.isNullOrBlank() -> editNonStriker.error = "Please enter non-striker name"
+                    bowler.isNullOrBlank() -> editBowler.error = "Please enter bowler name"
+                    striker == nonStriker -> {
+                        editNonStriker.error = "Striker and non-striker cannot be same"
+                        editStriker.error = "Striker and non-striker cannot be same"
+                    }
+                    else -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            viewModel.startSecondInnings(striker, nonStriker, bowler)
+                            dialog.dismiss()
+                        }
+                    }
+                }
+            }
+        }
+
+        dialog.show()
+    }
+
+    private fun setupMatchDetails(match: Match) {
         binding.apply {
-            // Update batting team name and overs
-            teamName.text = "${args.battingTeam}, Inning1, (${args.overs} overs)"
+            // Use args for initial team names if Match doesn't have them
+            val battingTeam = if (match.inning == 1) args.battingTeam else args.bowlingTeam
+            teamName.text = "$battingTeam, Inning${match.inning}, (${args.overs} overs)"
 
             // Update batsmen names
             (batsmanTable.getChildAt(1) as TableRow).apply {
-                (getChildAt(0) as TextView).text = "${args.striker}*"
+                (getChildAt(0) as TextView).text = "${match.striker}*"
             }
             (batsmanTable.getChildAt(2) as TableRow).apply {
-                (getChildAt(0) as TextView).text = args.nonStriker
+                (getChildAt(0) as TextView).text = match.nonStriker
             }
 
             // Update bowler name
             (bowlerTable.getChildAt(1) as TableRow).apply {
-                (getChildAt(0) as TextView).text = args.bowler
+                (getChildAt(0) as TextView).text = match.currentBowler
             }
         }
     }
@@ -160,7 +222,11 @@ class MatchScoringFragment : Fragment() {
     }
 
     private fun updateUI(match: Match) {
+        setupMatchDetails(match)
         binding.apply {
+            val battingTeam = if (match.inning == 1) args.battingTeam else args.bowlingTeam
+            teamName.text = "$battingTeam, Inning${match.inning}, (${formatOvers(match.currentOver)}/${args.overs})"
+
             // Update main score and overs
             score.text = "${match.totalScore}/${match.wickets}     (${formatOvers(match.currentOver)}/${args.overs})"
 

@@ -34,5 +34,7 @@ data class Match(
     val targetRuns: Int? = null,
     val targetOvers: Int? = null,
     val isCompleted: Boolean = false,
-    val currentInningsEnded: Boolean = false
+    val currentInningsEnded: Boolean = false,
+    val battingTeamName: String? = null,
+    val bowlingTeamName: String? = null
 )

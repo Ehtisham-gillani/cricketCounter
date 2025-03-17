@@ -93,6 +93,39 @@ class MatchScoringViewModel(
         }
     }
 
+    suspend fun startSecondInnings(striker: String, nonStriker: String, bowler: String) {
+        _currentMatch.value?.let { match ->
+            val targetRuns = match.totalScore + 1
+            val updatedMatch = match.copy(
+                inning = 2,
+                currentInningsEnded = false,
+                targetRuns = targetRuns,
+                totalScore = 0,
+                wickets = 0,
+                currentOver = 0.0,
+                striker = striker,
+                nonStriker = nonStriker,
+                currentBowler = bowler,
+                strikerRuns = 0,
+                strikerBalls = 0,
+                strikerFours = 0,
+                strikerSixes = 0,
+                nonStrikerRuns = 0,
+                nonStrikerBalls = 0,
+                nonStrikerFours = 0,
+                nonStrikerSixes = 0,
+                bowlerOvers = 0.0,
+                bowlerMaidens = 0,
+                bowlerRuns = 0,
+                bowlerWickets = 0,
+                currentOverBalls = emptyList(),
+                battingTeamName = match.bowlingTeamName,
+                bowlingTeamName = match.battingTeamName            )
+            matchDao.updateMatch(updatedMatch)
+            _showTargetDialog.value = false // Reset dialog trigger
+        }
+    }
+
     private suspend fun swapBatsmen(match: Match): Match {
         val updatedMatch = match.copy(
             striker = match.nonStriker,
