@@ -162,11 +162,10 @@ class MatchScoringFragment : Fragment() {
     private fun updateUI(match: Match) {
         binding.apply {
             // Update main score and overs
-            score.text =
-                "${match.totalScore}/${match.wickets}     (${formatOvers(match.currentOver)})"
+            score.text = "${match.totalScore}/${match.wickets}     (${formatOvers(match.currentOver)}/${args.overs})"
 
             // Update team name and innings
-            teamName.text = "${args.battingTeam}, Inning${match.inning}, (${args.overs} overs)"
+            teamName.text = "${args.battingTeam}, Inning${match.inning}, (${formatOvers(match.currentOver)}/${args.overs})"
 
             // Update run rates
             val currentRunRate = if (match.currentOver > 0) {
