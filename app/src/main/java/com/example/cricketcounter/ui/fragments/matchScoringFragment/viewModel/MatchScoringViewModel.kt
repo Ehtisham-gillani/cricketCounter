@@ -40,9 +40,11 @@ class MatchScoringViewModel(
             // All overs completed
             match.currentOver >= match.totalOvers -> true
             // Target achieved in 2nd innings
-            match.inning == 2 && match.targetRuns != null && match.totalScore > match.targetRuns -> true
+            match.inning == 2 && match.targetRuns != null && match.totalScore >= match.targetRuns -> true
             else -> false
         }
+
+        android.util.Log.d("MatchScoring", "Checking completion: currentOver=${match.currentOver}, totalOvers=${match.totalOvers}, wickets=${match.wickets}, isComplete=$isInningsComplete")
 
         if (isInningsComplete && !match.currentInningsEnded) {
             viewModelScope.launch {
@@ -54,6 +56,7 @@ class MatchScoringViewModel(
 
                 if (match.inning == 1) {
                     _showTargetDialog.value = true
+                    android.util.Log.d("MatchScoring", "Innings 1 complete, showing target dialog")
                 }
             }
         }
@@ -111,59 +114,57 @@ class MatchScoringViewModel(
         viewModelScope.launch {
             _currentMatch.value?.let { match ->
                 if (!match.currentInningsEnded) {
-                    android.util.Log.d("MatchScoring", "Before update - Score: ${match.totalScore}, Over: ${match.currentOver}")
+                    // Calculate balls and check if over is complete
+                    val ballsInOver = getBallsInOver(match.currentOver)
+                    val isOverComplete = ballsInOver >= 6
 
-                    // Create updated balls list
-                    val updatedBalls = match.currentOverBalls.toMutableList()
-                    updatedBalls.add(runs.toString())
+                    // Prepare updated balls list
+                    val updatedBalls = if (isOverComplete) {
+                        mutableListOf(runs.toString())
+                    } else {
+                        match.currentOverBalls.toMutableList().apply { add(runs.toString()) }
+                    }
 
-                    // Calculate new values
-                    val newTotalScore = match.totalScore + runs
-                    val newCurrentOver = if (!isExtra) updateOverCount(match.currentOver) else match.currentOver
-                    val newBowlerOvers = if (!isExtra) updateOverCount(match.bowlerOvers) else match.bowlerOvers
+                    // Calculate new over count
+                    val newCurrentOver = if (isExtra) {
+                        match.currentOver
+                    } else if (isOverComplete) {
+                        match.currentOver.toInt() + 1.0 // Move to next over
+                    } else {
+                        match.currentOver + 0.1 // Increment by one ball
+                    }
 
-                    // Update striker stats
-                    val newStrikerRuns = if (!isExtra) match.strikerRuns + runs else match.strikerRuns
-                    val newStrikerBalls = if (!isExtra) match.strikerBalls + 1 else match.strikerBalls
-                    val newStrikerFours = if (!isExtra && runs == 4) match.strikerFours + 1 else match.strikerFours
-                    val newStrikerSixes = if (!isExtra && runs == 6) match.strikerSixes + 1 else match.strikerSixes
+                    val newBowlerOvers = if (!isExtra) {
+                        if (isOverComplete) match.bowlerOvers.toInt() + 1.0
+                        else match.bowlerOvers + 0.1
+                    } else match.bowlerOvers
 
+                    // Update match state
                     var currentUpdatedMatch = match.copy(
-                        totalScore = newTotalScore,
+                        totalScore = match.totalScore + runs,
                         currentOver = newCurrentOver,
                         currentOverBalls = updatedBalls,
                         bowlerRuns = match.bowlerRuns + runs,
                         bowlerOvers = newBowlerOvers,
-                        strikerRuns = newStrikerRuns,
-                        strikerBalls = newStrikerBalls,
-                        strikerFours = newStrikerFours,
-                        strikerSixes = newStrikerSixes
+                        strikerRuns = if (!isExtra) match.strikerRuns + runs else match.strikerRuns,
+                        strikerBalls = if (!isExtra) match.strikerBalls + 1 else match.strikerBalls,
+                        strikerFours = if (!isExtra && runs == 4) match.strikerFours + 1 else match.strikerFours,
+                        strikerSixes = if (!isExtra && runs == 6) match.strikerSixes + 1 else match.strikerSixes
                     )
 
-                    // First update the match state
                     matchDao.updateMatch(currentUpdatedMatch)
 
-                    android.util.Log.d("MatchScoring", "After first update - Score: ${currentUpdatedMatch.totalScore}, Over: ${currentUpdatedMatch.currentOver}")
-
-                    // Handle swap conditions
+                    // Handle swapping
                     if (!isExtra) {
-                        // Handle odd runs
                         if (runs % 2 == 1) {
-                            android.util.Log.d("MatchScoring", "Swapping for odd runs")
                             currentUpdatedMatch = swapBatsmen(currentUpdatedMatch)
                         }
-
-                        // Handle end of over
-                        if (getBallsInOver(newCurrentOver) == 6) {
-                            android.util.Log.d("MatchScoring", "Swapping for end of over")
+                        if (isOverComplete) {
                             currentUpdatedMatch = swapBatsmen(currentUpdatedMatch)
-                            checkMaiden(currentUpdatedMatch)
+                            checkMaiden(match) // Check maiden with previous over's data
                         }
                     }
 
-                    android.util.Log.d("MatchScoring", "Final state - Score: ${currentUpdatedMatch.totalScore}, Over: ${currentUpdatedMatch.currentOver}")
-
-                    // Check innings completion
                     checkInningsCompletion(currentUpdatedMatch)
                 }
             }
@@ -250,11 +251,11 @@ class MatchScoringViewModel(
     }
 
     private fun updateOverCount(currentOver: Double): Double {
-        val balls = (currentOver * 10).toInt() + 1
-        return if (balls % 6 == 0) {
-            (balls / 6).toDouble()
+        val balls = getBallsInOver(currentOver)
+        return if (balls < 5) {
+            currentOver + 0.1
         } else {
-            (balls / 6).toDouble() + (balls % 6).toDouble() / 10
+            currentOver.toInt() + 1.0
         }
     }
 
