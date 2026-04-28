@@ -13,6 +13,9 @@ interface PlayerDao {
     @Query("SELECT * FROM players WHERE teamId = :teamId")
     fun getPlayersForTeam(teamId: Int): Flow<List<Player>>
 
+    @Query("SELECT * FROM players WHERE teamId = :teamId")
+    suspend fun getPlayersForTeamOnce(teamId: Int): List<Player>
+
     @Query("SELECT * FROM players WHERE id = :playerId")
     suspend fun getPlayerById(playerId: Int): Player?
 

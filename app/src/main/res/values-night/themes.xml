@@ -1,7 +1,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.CricketCounter" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <!-- Force light theme — no dark mode -->
+    <style name="Base.Theme.CricketCounter" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/cricket_green</item>
+        <item name="colorPrimaryVariant">@color/cricket_green_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/cricket_gold</item>
+        <item name="android:colorBackground">@color/surface_bg</item>
     </style>
 </resources>

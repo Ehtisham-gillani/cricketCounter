@@ -1,9 +1,6 @@
 package com.example.cricketcounter.data.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.example.cricketcounter.data.models.Match
 import kotlinx.coroutines.flow.Flow
 
@@ -17,4 +14,10 @@ interface MatchDao {
 
     @Query("SELECT * FROM matches WHERE id = :matchId")
     fun getMatchById(matchId: Int): Flow<Match>
+
+    @Query("SELECT * FROM matches WHERE id = :matchId")
+    suspend fun getMatchByIdOnce(matchId: Int): Match?
+
+    @Query("SELECT * FROM matches ORDER BY id DESC")
+    fun getAllMatches(): Flow<List<Match>>
 }

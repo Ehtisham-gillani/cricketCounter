@@ -1,506 +1,355 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:orientation="vertical"
+    android:background="@color/surface_bg"
     tools:context=".ui.fragments.matchScoringFragment.MatchScoringFragment">
 
-    <!-- Team Score Header -->
-    <TextView
-        android:id="@+id/teamName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:padding="8dp"
-        android:text="Pakistan, Inning1, (1 overs)"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- Score Display -->
-    <TextView
-        android:id="@+id/score"
+    <!-- HEADER -->
+    <LinearLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_margin="8dp"
-        android:text="0/0          (0.0)"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        app:layout_constraintTop_toBottomOf="@id/teamName" />
-
-    <!-- Run Rate Info -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rateInfo"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/score"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:background="@color/cricket_green_dark"
+        android:orientation="vertical"
+        android:paddingStart="16dp" android:paddingEnd="16dp"
+        android:paddingTop="12dp" android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/teamName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Team A — Innings 1"
+                android:textColor="#CCFFFFFF"
+                android:textSize="12sp"
+                android:letterSpacing="0.04"/>
+
+            <!-- FREE HIT BADGE -->
+            <TextView
+                android:id="@+id/freeHitBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="⚡ FREE HIT"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:textStyle="bold"
+                android:background="#FFD600"
+                android:paddingStart="8dp" android:paddingEnd="8dp"
+                android:paddingTop="3dp" android:paddingBottom="3dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnScorecard"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CARD"
+                android:textColor="#A5D6A7"
+                android:textSize="11sp"
+                android:minWidth="0dp"
+                android:paddingStart="6dp" android:paddingEnd="6dp"/>
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/crrText"
-            android:layout_width="0dp"
+            android:id="@+id/score"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CRR:0.00"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/rrrText"
-            app:layout_constraintHorizontal_weight="1" />
+            android:gravity="center"
+            android:text="0/0"
+            android:textColor="#FFFFFF"
+            android:textSize="52sp"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginTop="2dp" android:layout_marginBottom="2dp"/>
 
-        <TextView
-            android:id="@+id/rrrText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="RRR:NA"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/crrText"
-            app:layout_constraintEnd_toStartOf="@id/targetText"
-            app:layout_constraintHorizontal_weight="1" />
+            android:orientation="horizontal">
+            <TextView android:id="@+id/oversText" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:gravity="center" android:text="0.0 ov"
+                android:textColor="#A5D6A7" android:textSize="12sp"/>
+            <TextView android:id="@+id/crrText" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:gravity="center" android:text="CRR: 0.00"
+                android:textColor="#A5D6A7" android:textSize="12sp"/>
+            <TextView android:id="@+id/rrrText" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:gravity="center" android:text="RRR: —"
+                android:textColor="#FFD54F" android:textSize="12sp"/>
+            <TextView android:id="@+id/targetText" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:gravity="center" android:text="Target: —"
+                android:textColor="#FFD54F" android:textSize="12sp"/>
+        </LinearLayout>
+    </LinearLayout>
 
-        <TextView
-            android:id="@+id/targetText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Target:NA"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/rrrText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_weight="1" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Batsman Stats -->
-    <TableLayout
-        android:id="@+id/batsmanTable"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:stretchColumns="*"
-        app:layout_constraintTop_toBottomOf="@id/rateInfo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TableRow android:background="#E8E8E8">
-
-            <TextView
-                android:layout_weight="2.5"
-                android:padding="4dp"
-                android:text="Batsman"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="R"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="B"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="4s"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="6s"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="SR"
-                android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_weight="2.5"
-                android:padding="4dp"
-                android:text="Abbas*" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0.00" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_weight="2.5"
-                android:padding="4dp"
-                android:text="Ehtisham" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0.00" />
-        </TableRow>
-
-    </TableLayout>
-
-    <!-- Bowler Stats -->
-    <TableLayout
-        android:id="@+id/bowlerTable"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:stretchColumns="*"
-        app:layout_constraintTop_toBottomOf="@id/batsmanTable"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <TableRow android:background="#E8E8E8">
-
-            <TextView
-                android:layout_weight="2.5"
-                android:padding="4dp"
-                android:text="Bowler"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="O"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="M"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="R"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="W"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="ER"
-                android:textStyle="bold" />
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:layout_weight="2.5"
-                android:padding="4dp"
-                android:text="Jayesh" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0.0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0" />
-
-            <TextView
-                android:layout_weight="1"
-                android:gravity="center"
-                android:padding="4dp"
-                android:text="0.00" />
-        </TableRow>
-
-    </TableLayout>
-
-    <!-- This Over Label -->
-    <TextView
-        android:id="@+id/thisOverLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="This over:"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/bowlerTable" />
-
-    <!-- Delivery Options -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/deliveryOptions"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:padding="4dp"
-        app:layout_constraintTop_toBottomOf="@id/thisOverLabel"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <CheckBox
-            android:id="@+id/wicketCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wicket"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/wideCheckbox" />
-
-        <CheckBox
-            android:id="@+id/wideCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wide"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/wicketCheckbox"
-            app:layout_constraintEnd_toStartOf="@id/nbCheckbox" />
-
-        <CheckBox
-            android:id="@+id/nbCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NB"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/wideCheckbox"
-            app:layout_constraintEnd_toStartOf="@id/byesCheckbox" />
-
-        <CheckBox
-            android:id="@+id/byesCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Byes"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/nbCheckbox"
-            app:layout_constraintEnd_toStartOf="@id/legByCheckbox" />
-
-        <CheckBox
-            android:id="@+id/legByCheckbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="LegBy"
-            android:textSize="12sp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/byesCheckbox"
-            app:layout_constraintEnd_toEndOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <!-- Run Buttons -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/runButtonsGrid"
+    <!-- SCROLLABLE BODY -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="2dp"
-        app:layout_constraintTop_toBottomOf="@id/deliveryOptions"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        android:layout_weight="1"
+        android:overScrollMode="never"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp">
 
-            <!-- First Row -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_0"
-                android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <!-- This Over -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="0"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btn_1"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginEnd="4dp"/>
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="@color/surface_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="THIS OVER" android:textColor="@color/cricket_green"
+                        android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.12"/>
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="none"
+                        android:layout_marginTop="8dp">
+                        <LinearLayout
+                            android:id="@+id/ballChipsContainer"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"/>
+                    </HorizontalScrollView>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Batting Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="@color/surface_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="BATTING" android:textColor="@color/cricket_green"
+                        android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.12"/>
+                    <TableLayout
+                        android:id="@+id/batsmanTable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:stretchColumns="0">
+                        <TableRow>
+                            <TextView android:text="Batsman" android:textColor="@color/text_secondary" android:textSize="11sp" android:paddingBottom="4dp"/>
+                            <TextView android:text="R" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="28dp"/>
+                            <TextView android:text="B" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="28dp"/>
+                            <TextView android:text="4s" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="28dp"/>
+                            <TextView android:text="6s" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="28dp"/>
+                            <TextView android:text="SR" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="44dp"/>
+                        </TableRow>
+                        <TableRow>
+                            <TextView android:text="Striker*" android:textColor="@color/cricket_green" android:textStyle="bold" android:textSize="14sp" android:paddingTop="4dp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_primary" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_primary" android:textSize="14sp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/ball_four" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/ball_six" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:text="—" android:gravity="center" android:textColor="@color/text_primary" android:textSize="13sp"/>
+                        </TableRow>
+                        <TableRow>
+                            <TextView android:text="Non-Striker" android:textColor="@color/text_secondary" android:textSize="14sp" android:paddingTop="4dp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="14sp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="14sp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="14sp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="14sp"/>
+                            <TextView android:text="—" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="13sp"/>
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Bowling Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="3dp"
+                app:cardBackgroundColor="@color/surface_card">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:orientation="vertical" android:padding="12dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="BOWLING" android:textColor="@color/cricket_green"
+                        android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.12"/>
+                    <TableLayout
+                        android:id="@+id/bowlerTable"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:stretchColumns="0">
+                        <TableRow>
+                            <TextView android:text="Bowler" android:textColor="@color/text_secondary" android:textSize="11sp" android:paddingBottom="4dp"/>
+                            <TextView android:text="O" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="32dp"/>
+                            <TextView android:text="M" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="28dp"/>
+                            <TextView android:text="R" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="28dp"/>
+                            <TextView android:text="W" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="28dp"/>
+                            <TextView android:text="ER" android:gravity="center" android:textColor="@color/text_secondary" android:textSize="11sp" android:minWidth="42dp"/>
+                        </TableRow>
+                        <TableRow>
+                            <TextView android:text="Bowler" android:textColor="@color/text_primary" android:textStyle="bold" android:textSize="14sp" android:paddingTop="4dp"/>
+                            <TextView android:text="0.0" android:gravity="center" android:textColor="@color/text_primary" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_primary" android:textSize="14sp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/text_primary" android:textSize="14sp"/>
+                            <TextView android:text="0" android:gravity="center" android:textColor="@color/ball_wicket" android:textSize="14sp" android:textStyle="bold"/>
+                            <TextView android:text="0.00" android:gravity="center" android:textColor="@color/text_primary" android:textSize="13sp"/>
+                        </TableRow>
+                    </TableLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- BOTTOM PANEL -->
+    <LinearLayout
+        android:id="@+id/bottomPanel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface_card"
+        android:elevation="12dp"
+        android:orientation="vertical"
+        android:paddingStart="12dp" android:paddingEnd="12dp"
+        android:paddingTop="8dp" android:paddingBottom="10dp">
+
+        <!-- Extras + Wicket row -->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:layout_marginBottom="8dp">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnWicket" style="@style/ChipButton"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp" android:text="WICKET"
+                    android:textColor="@color/ball_wicket" app:strokeColor="@color/ball_wicket" app:strokeWidth="1.5dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnWide" style="@style/ChipButton"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp" android:text="WIDE"
+                    android:textColor="@color/ball_wide" app:strokeColor="@color/ball_wide" app:strokeWidth="1.5dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNb" style="@style/ChipButton"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp" android:text="NO BALL"
+                    android:textColor="@color/ball_noball" app:strokeColor="@color/ball_noball" app:strokeWidth="1.5dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBye" style="@style/ChipButton"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp" android:text="BYE"
+                    android:textColor="@color/ball_bye" app:strokeColor="@color/ball_bye" app:strokeWidth="1.5dp"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLegBye" style="@style/ChipButton"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="LEG BYE"
+                    android:textColor="@color/ball_bye" app:strokeColor="@color/ball_bye" app:strokeWidth="1.5dp"/>
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <!-- Run buttons -->
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="4"
+            android:rowCount="2"
+            android:layout_marginBottom="8dp">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="1"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toEndOf="@id/btn_0"
-                app:layout_constraintEnd_toStartOf="@id/btn_2"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginHorizontal="4dp"/>
+                android:id="@+id/btn0" style="@style/RunButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_columnWeight="1" android:layout_margin="3dp"
+                android:text="·" app:backgroundTint="@color/btn_dot"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="2"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toEndOf="@id/btn_1"
-                app:layout_constraintEnd_toStartOf="@id/btn_swap"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="4dp"/>
+                android:id="@+id/btn1" style="@style/RunButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_columnWeight="1" android:layout_margin="3dp"
+                android:text="1" app:backgroundTint="@color/btn_single"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_swap"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="SWAP"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toEndOf="@id/btn_2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginStart="4dp"/>
-
-            <!-- Second Row -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="3"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/btn_4"
-                app:layout_constraintTop_toBottomOf="@id/btn_0"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="4dp"/>
+                android:id="@+id/btn2" style="@style/RunButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_columnWeight="1" android:layout_margin="3dp"
+                android:text="2" app:backgroundTint="@color/btn_two"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="4"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toEndOf="@id/btn_3"
-                app:layout_constraintEnd_toStartOf="@id/btn_6"
-                app:layout_constraintTop_toBottomOf="@id/btn_1"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="4dp"/>
+                android:id="@+id/btn3" style="@style/RunButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_columnWeight="1" android:layout_margin="3dp"
+                android:text="3" app:backgroundTint="@color/btn_three"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="6"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toEndOf="@id/btn_4"
-                app:layout_constraintEnd_toStartOf="@id/btn_undo"
-                app:layout_constraintTop_toBottomOf="@id/btn_2"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="4dp"/>
+                android:id="@+id/btn4" style="@style/RunButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_columnWeight="1" android:layout_margin="3dp"
+                android:text="4 ▪ FOUR" app:backgroundTint="@color/btn_four"/>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_undo"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="UNDO"
-                style="@style/RunButton"
-                android:textSize="18sp"
-                android:backgroundTint="#4CAF50"
-                app:layout_constraintStart_toEndOf="@id/btn_6"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btn_swap"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="4dp"/>
+                android:id="@+id/btn5" style="@style/RunButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_columnWeight="1" android:layout_margin="3dp"
+                android:text="5" app:backgroundTint="@color/btn_five"/>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn6" style="@style/RunButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_columnWeight="1" android:layout_margin="3dp"
+                android:text="6 ▪ SIX" app:backgroundTint="@color/btn_six"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <View android:layout_width="0dp" android:layout_height="0dp"
+                android:layout_columnWeight="1" android:layout_margin="3dp"/>
+        </GridLayout>
+
+        <!-- Swap / Undo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSwap" style="@style/UtilButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:layout_marginEnd="6dp"
+                android:text="⇄  SWAP" app:backgroundTint="@color/cricket_green_light"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnUndo" style="@style/UtilButton"
+                android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="↩  UNDO" app:backgroundTint="@color/cricket_gold"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

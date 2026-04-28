@@ -1,9 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Base -->
     <color name="black">#CC000000</color>
-    <color name="statusBarColor">#2196F3</color>
-    <color name="appColor">#2196F3</color>
-    <color name="purple_500">#6200EE</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#757575</color>
+
+    <!-- Cricket Green Theme -->
+    <color name="cricket_green_dark">#1B5E20</color>
+    <color name="cricket_green">#2E7D32</color>
+    <color name="cricket_green_light">#388E3C</color>
+    <color name="cricket_green_accent">#43A047</color>
+    <color name="cricket_green_surface">#E8F5E9</color>
+    <color name="cricket_gold">#F9A825</color>
+    <color name="cricket_gold_light">#FFF9C4</color>
+
+    <!-- Status / App -->
+    <color name="statusBarColor">#1B5E20</color>
+    <color name="appColor">#2E7D32</color>
+    <color name="purple_500">#6200EE</color>
+
+    <!-- Ball chip colors -->
+    <color name="ball_dot">#546E7A</color>
+    <color name="ball_run">#1565C0</color>
+    <color name="ball_four">#1976D2</color>
+    <color name="ball_six">#B71C1C</color>
+    <color name="ball_wicket">#E65100</color>
+    <color name="ball_wide">#F57F17</color>
+    <color name="ball_noball">#AD1457</color>
+    <color name="ball_bye">#4527A0</color>
+
+    <!-- Surface -->
+    <color name="surface_bg">#F1F8E9</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="text_primary">#1C1B1F</color>
+    <color name="text_secondary">#616161</color>
+    <color name="divider">#E0E0E0</color>
+
+    <!-- Run buttons -->
+    <color name="btn_dot">#455A64</color>
+    <color name="btn_single">#2E7D32</color>
+    <color name="btn_two">#1565C0</color>
+    <color name="btn_three">#6A1B9A</color>
+    <color name="btn_four">#0277BD</color>
+    <color name="btn_five">#E65100</color>
+    <color name="btn_six">#B71C1C</color>
 </resources>
